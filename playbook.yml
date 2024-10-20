@@ -1,0 +1,25 @@
+- remote_user: ubuntu
+  hosts: all
+  become: yes
+  tasks:
+    
+  # Moved Docker login before pulling the image
+    - name: Log in to Docker Hub
+      docker_login:
+        username: "containerguru1"
+        password: "Madmithra!27"
+
+    - name: Pull Docker image from Docker Hub
+      docker_image:
+        name: containerguru1/new-proj-repo
+        tag: latest
+        source: pull
+
+    - name: Run Docker container
+      docker_container:
+        name: my_container
+        image: containerguru1/new-proj-repo
+        state: started
+        restart_policy: always
+        ports:
+          - "81:80"  # Adjust the ports as needed
